@@ -14,6 +14,7 @@ import {
   Button,
   Switch,
 } from "@heroui/react";
+import { useUISounds } from "@/hooks/useUISounds";
 
 const navLinks = [
   { 
@@ -49,6 +50,7 @@ export default function NavbarComponent() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("Home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { playHover, playClick, isMuted, toggleMute } = useUISounds();
 
   useEffect(() => {
     setMounted(true);
@@ -58,6 +60,7 @@ export default function NavbarComponent() {
   }, []);
 
   const handleNavClick = (label: string, href: string) => {
+    playClick();
     setActive(label);
     setIsMenuOpen(false);
     const el = document.querySelector(href);
@@ -115,6 +118,7 @@ export default function NavbarComponent() {
               transition={{ delay: 0.1 * i, duration: 0.5 }}
               whileHover={{ y: -3 }}
               whileTap={{ y: 0 }}
+              onMouseEnter={playHover}
               onClick={() => handleNavClick(link.label, link.href)}
               className={`relative px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
                 active === link.label
@@ -146,6 +150,37 @@ export default function NavbarComponent() {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
+          {/* Mute Toggle */}
+          {mounted && (
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onMouseEnter={playHover}
+              onClick={() => {
+                playClick();
+                toggleMute();
+              }}
+              className="w-10 h-10 rounded-xl flex items-center justify-center transition-all"
+              style={{
+                background: "var(--bg-card)",
+                border: "1px solid var(--border)",
+                color: isMuted ? "rgba(255,255,255,0.3)" : "var(--cyan)",
+              }}
+              title={isMuted ? "Unmute sounds" : "Mute sounds"}
+            >
+              {isMuted ? (
+                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                </svg>
+              ) : (
+                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                </svg>
+              )}
+            </motion.button>
+          )}
+
           {/* Theme Toggle */}
           {mounted && (
             <motion.button
@@ -177,8 +212,10 @@ export default function NavbarComponent() {
             href="#contact"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
+            onMouseEnter={playHover}
             className="hidden sm:flex btn-primary text-sm py-2 px-5"
             onClick={(e) => {
+              playClick();
               e.preventDefault();
               handleNavClick("Contact", "#contact");
             }}

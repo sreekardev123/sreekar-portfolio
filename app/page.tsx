@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import dynamic from "next/dynamic";
 import HeroSection from "@/components/sections/HeroSection";
 
@@ -16,6 +17,10 @@ const ProjectsSection = dynamic(() => import("@/components/sections/ProjectsSect
   ssr: false 
 });
 
+const GitHubSection = dynamic(() => import("@/components/sections/GitHubSection"), { 
+  ssr: false 
+});
+
 const ContactSection = dynamic(() => import("@/components/sections/ContactSection"), { 
   ssr: false 
 });
@@ -29,6 +34,14 @@ const ParticleBackground = dynamic(() => import("@/components/ParticleBackground
 });
 
 export default function Home() {
+  useEffect(() => {
+    // Only track once per tab session to avoid double counts on page refreshes
+    if (typeof window !== "undefined" && !sessionStorage.getItem("portfolio_visited")) {
+      sessionStorage.setItem("portfolio_visited", "true");
+      fetch("/api/visitor", { method: "POST" }).catch((err) => console.error("Tracking error:", err));
+    }
+  }, []);
+
   return (
     <main className="relative min-h-screen bg-[var(--bg-primary)] overflow-x-hidden">
       {/* Global ambient background */}
@@ -40,6 +53,7 @@ export default function Home() {
       <AboutSection />
       <SkillsSection />
       <ProjectsSection />
+      <GitHubSection />
       <ContactSection />
       <Footer />
     </main>

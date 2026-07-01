@@ -2,21 +2,22 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const projects = [
   {
     id: 1,
-    title: "SMM AIdeas",
-    subtitle: "AI Social Media Automation Platform",
+    title: "SMM",
+    subtitle: "AI-Powered Social Media Automation Platform",
     description:
-      "AI-based automation workflows enabling multi-platform content publishing, reducing manual content creation effort by nearly 85%. Features scheduling, analytics, and OAuth integration.",
-    tags: ["React.js", "Node.js", "Express.js", "PostgreSQL", "Gemini API"],
+      "Architected AI content automation using Google Gemini API for captions and images. Built image-to-video compiling using FFmpeg, and integrated Meta Graph, LinkedIn, YouTube, and Twitter Puppeteer automation. Reduced manual content creation by 85% with cron-based scheduling.",
+    tags: ["React", "JavaScript", "Vite", "Node.js", "Express.js", "PostgreSQL", "Google Gemini API", "FFmpeg", "Cloudinary", "Puppeteer", "JWT"],
     color: "var(--cyan)",
     gradient: "from-[#00f5ff20] to-[#7c3aed20]",
     stats: { stars: 12, forks: 3 },
-    live: "https://example.com",
-    github: "https://github.com",
+    live: "#",
+    github: "#",
     featured: true,
     emoji: "🤖",
     bg: "linear-gradient(135deg, rgba(0,245,255,0.1) 0%, rgba(124,58,237,0.1) 100%)",
@@ -24,16 +25,16 @@ const projects = [
   },
   {
     id: 2,
-    title: "AIDeas Academy",
+    title: "AIdeas Academy",
     subtitle: "Learning Management System",
     description:
-      "Modular LMS architecture supporting multi-role academic workflows. Features secure REST APIs, real-time enrollment processing, and protected session content access.",
-    tags: ["Next.js", "TypeScript", "Node.js", "Express.js", "PostgreSQL", "Drizzle ORM"],
+      "Designed a modular LMS architecture supporting 4 user roles. Built a scalable PostgreSQL schema with 8 normalized tables using Drizzle ORM, reducing query time by 40%. Implemented Nodemailer welcome system and secure REST APIs with JWT refresh flows.",
+    tags: ["Next.js", "TypeScript", "Node.js", "Express.js", "PostgreSQL", "Drizzle ORM", "JWT", "Zod", "Nodemailer", "Multer"],
     color: "var(--purple)",
     gradient: "from-[#7c3aed20] to-[#ec489920]",
     stats: { stars: 8, forks: 2 },
-    live: "https://example.com",
-    github: "https://github.com",
+    live: "#",
+    github: "#",
     featured: true,
     emoji: "🎓",
     bg: "linear-gradient(135deg, rgba(124,58,237,0.1) 0%, rgba(236,72,153,0.1) 100%)",
@@ -41,23 +42,39 @@ const projects = [
   },
   {
     id: 3,
-    title: "Product-Based MLM & ROI Platform",
-    subtitle: "Backend Financial System",
+    title: "Enterprise CRM",
+    subtitle: "Role-Based Sales & Lead Management System",
     description:
-      "Backend investment lifecycle workflows including automated ROI scheduling and referral income distribution. Features validated wallet ledger transactions and cron-based automations.",
-    tags: ["Node.js", "TypeScript", "PostgreSQL", "Redis", "Razorpay"],
+      "Architected role-based access control (RBAC) for 5 corporate roles with table-level permissions. Developed stateful lead conversion engine, pipeline analytics dashboard using Recharts/Redux Toolkit, and secured APIs using Helmet, Bcrypt, and Prisma.",
+    tags: ["Next.js", "React", "TypeScript", "Redux Toolkit", "Node.js", "Express.js", "PostgreSQL", "Prisma ORM", "JWT", "Zod", "Recharts"],
+    color: "#3b82f6",
+    gradient: "from-[#3b82f620] to-[#8b5cf620]",
+    stats: { stars: 10, forks: 2 },
+    live: "#",
+    github: "#",
+    featured: true,
+    emoji: "📈",
+    bg: "linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(139,92,246,0.1) 100%)",
+  },
+  {
+    id: 4,
+    title: "Trendzity",
+    subtitle: "Influencer Campaign & Wallet Management Platform",
+    description:
+      "Built double-entry ledger system with separation of withdrawable/non-withdrawable balances. Processed 1000+ wallet transactions with secure Razorpay integration. Integrated Meta, LinkedIn, YouTube, and Telegram APIs for campaigns, reducing manual finance overhead by 35%.",
+    tags: ["React", "TypeScript", "Node.js", "Express.js", "PostgreSQL", "Prisma ORM", "Razorpay", "JWT", "Cloudinary"],
     color: "var(--gold)",
     gradient: "from-[#f59e0b20] to-[#ef444420]",
     stats: { stars: 15, forks: 4 },
-    live: "https://example.com",
-    github: "https://github.com",
+    live: "#",
+    github: "#",
     featured: true,
     emoji: "💰",
     bg: "linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(239,68,68,0.1) 100%)",
     image: "/assets/mlm-project.png",
   },
   {
-    id: 4,
+    id: 5,
     title: "Netflix Clone",
     subtitle: "Frontend Streaming Application",
     description:
@@ -66,14 +83,14 @@ const projects = [
     color: "#ef4444",
     gradient: "from-[#ef444420] to-[#00000020]",
     stats: { stars: 20, forks: 5 },
-    live: "https://example.com",
-    github: "https://github.com",
-    featured: true,
+    live: "#",
+    github: "#",
+    featured: false,
     emoji: "🍿",
     bg: "linear-gradient(135deg, rgba(239,68,68,0.1) 0%, rgba(0,0,0,0.1) 100%)",
   },
   {
-    id: 5,
+    id: 6,
     title: "Multi-Role Auth Platform",
     subtitle: "Full-Stack Landing Page",
     description:
@@ -82,14 +99,14 @@ const projects = [
     color: "#3b82f6",
     gradient: "from-[#3b82f620] to-[#8b5cf620]",
     stats: { stars: 10, forks: 2 },
-    live: "https://example.com",
-    github: "https://github.com",
+    live: "#",
+    github: "#",
     featured: false,
     emoji: "🔐",
     bg: "linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(139,92,246,0.1) 100%)",
   },
   {
-    id: 6,
+    id: 7,
     title: "Digital Marketing Platform",
     subtitle: "Multi-Service Web Architecture",
     description:
@@ -98,14 +115,14 @@ const projects = [
     color: "#10b981",
     gradient: "from-[#10b98120] to-[#3b82f620]",
     stats: { stars: 14, forks: 4 },
-    live: "https://example.com",
-    github: "https://github.com",
+    live: "#",
+    github: "#",
     featured: false,
     emoji: "📈",
     bg: "linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(59,130,246,0.1) 100%)",
   },
   {
-    id: 7,
+    id: 8,
     title: "AI Business Chatbot",
     subtitle: "Interactive AI Assistant",
     description:
@@ -114,14 +131,14 @@ const projects = [
     color: "#8b5cf6",
     gradient: "from-[#8b5cf620] to-[#ec489920]",
     stats: { stars: 18, forks: 6 },
-    live: "https://example.com",
-    github: "https://github.com",
+    live: "#",
+    github: "#",
     featured: false,
     emoji: "💬",
     bg: "linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(236,72,153,0.1) 100%)",
   },
   {
-    id: 8,
+    id: 9,
     title: "AI Image Generator",
     subtitle: "Text-to-Image Application",
     description:
@@ -130,14 +147,14 @@ const projects = [
     color: "#ec4899",
     gradient: "from-[#ec489920] to-[#f43f5e20]",
     stats: { stars: 25, forks: 8 },
-    live: "https://example.com",
-    github: "https://github.com",
+    live: "#",
+    github: "#",
     featured: false,
     emoji: "🎨",
     bg: "linear-gradient(135deg, rgba(236,72,153,0.1) 0%, rgba(244,63,94,0.1) 100%)",
   },
   {
-    id: 9,
+    id: 10,
     title: "Typing Master",
     subtitle: "Interactive Speed Typing App",
     description:
@@ -146,8 +163,8 @@ const projects = [
     color: "#06b6d4",
     gradient: "from-[#06b6d420] to-[#3b82f620]",
     stats: { stars: 8, forks: 1 },
-    live: "https://example.com",
-    github: "https://github.com",
+    live: "#",
+    github: "#",
     featured: false,
     emoji: "⌨️",
     bg: "linear-gradient(135deg, rgba(6,182,212,0.1) 0%, rgba(59,130,246,0.1) 100%)",
@@ -337,8 +354,16 @@ export default function ProjectsSection() {
   const [filter, setFilter] = useState<"all" | "featured">("all");
   const filtered = filter === "featured" ? projects.filter((p) => p.featured) : projects;
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const contentY = useTransform(scrollYProgress, [0, 1], [150, -150]);
+
   return (
-    <section id="projects" className="relative py-32 px-6">
+    <section id="projects" ref={sectionRef} className="relative py-32 px-6 overflow-hidden">
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -347,7 +372,7 @@ export default function ProjectsSection() {
         }}
       />
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <motion.div style={{ y: contentY }} className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <div
           data-aos="zoom-in-down"
@@ -437,7 +462,7 @@ export default function ProjectsSection() {
             </svg>
           </a>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

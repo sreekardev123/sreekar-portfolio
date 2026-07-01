@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 
@@ -14,21 +15,63 @@ const AboutScene = dynamic(() => import("@/components/AboutScene"), {
 
 const timeline = [
   {
-    year: "2026",
-    title: "Software Developer Intern",
-    company: "AIdeas Tech Solution",
-    desc: "Working on AI-driven platforms supporting automation workflows, digital learning operations, and financial transaction systems using React, Node.js, and Gemini API.",
+    year: "June 2025 — May 2026",
+    shortYear: "25-26",
+    title: "Full Stack Developer",
+    company: "AIdeas Tech Solutions Pvt Ltd",
+    desc: "Built and shipped 4 production-grade SaaS platforms end-to-end as part of a core engineering team, contributing across the full stack from database schema design to deployment pipelines.",
     color: "#00f5ff",
-  },
-  {
-    year: "2025",
-    title: "Full Stack Developer Intern",
-    company: "24hr7 Commerce Pvt. Ltd.",
-    desc: "Developed MERN-based modules improving application performance. Integrated REST APIs and MySQL DB operations supporting real-time data processing workflows.",
-    color: "#7c3aed",
+    projects: [
+      {
+        name: "Trendzity — Influencer Campaign & Wallet Management Platform",
+        bullets: [
+          "Built double-entry ledger system with debit/credit entries and withdrawable vs non-withdrawable balance separation",
+          "Processed 1,000+ wallet transactions with secure Razorpay integration supporting bank and UPI flows",
+          "Built cron-based analytics sync for 500+ creator accounts with API throttling",
+          "Integrated Meta, LinkedIn, YouTube, and Telegram social APIs for multi-platform campaign management",
+          "Reduced manual finance handling by 35% through admin approval workflows",
+          "Deployed on Render and Vercel with CI/CD pipelines reducing build-to-deploy time to under 3 minutes"
+        ],
+        tech: ["React", "TypeScript", "Node.js", "Express.js", "PostgreSQL", "Prisma ORM", "JWT", "OAuth 2.0", "Razorpay", "Cloudinary"]
+      },
+      {
+        name: "Enterprise CRM — Role-Based Sales & Lead Management System",
+        bullets: [
+          "Architected RBAC system for 5 corporate roles with table-level and action-level permissions",
+          "Built stateful lead conversion engine managing Lead → Opportunity → Student transitions",
+          "Developed analytics dashboards using Recharts and Redux Toolkit for pipeline and conversion tracking",
+          "Reduced manual finance handling by 35% through structured approval workflows",
+          "Secured all APIs using Helmet.js, Bcrypt, and Prisma ORM with PostgreSQL"
+        ],
+        tech: ["Next.js", "React", "TypeScript", "Redux Toolkit", "Node.js", "Express.js", "PostgreSQL", "Prisma ORM", "JWT", "Zod", "Recharts"]
+      },
+      {
+        name: "AIdeas Academy — Learning Management System",
+        bullets: [
+          "Designed modular LMS architecture in Next.js and TypeScript supporting 4 user roles",
+          "Built scalable PostgreSQL schema using Drizzle ORM with 8 normalized tables",
+          "Reduced administrative query time by 40% through optimized schema design",
+          "Implemented automated welcome email system using Nodemailer with Gmail SMTP",
+          "Developed secure REST APIs with JWT token refresh flows and session-protected content access"
+        ],
+        tech: ["Next.js", "TypeScript", "Node.js", "Express.js", "PostgreSQL", "Drizzle ORM", "JWT", "Zod", "Nodemailer", "Multer"]
+      },
+      {
+        name: "SMM — AI-Powered Social Media Automation Platform",
+        bullets: [
+          "Architected AI content automation using Google Gemini API for caption and image generation",
+          "Built image-to-video engine using FFmpeg to compile AI images into video loops for YouTube",
+          "Integrated Meta Graph API, LinkedIn API, YouTube Data API, and Twitter via Puppeteer automation",
+          "Reduced manual content creation by 85% through end-to-end AI automation",
+          "Built cron-based post scheduler with Instagram guard limits and duplicate content prevention"
+        ],
+        tech: ["React", "JavaScript", "Vite", "Node.js", "Express.js", "PostgreSQL", "Google Gemini API", "FFmpeg", "Cloudinary", "Puppeteer", "JWT"]
+      }
+    ]
   },
   {
     year: "2022",
+    shortYear: "22",
     title: "Web Developer Intern",
     company: "Habib IT Solutions",
     desc: "Built responsive UI components enhancing usability. Assisted backend integration tasks and version control workflows using Git and GitHub.",
@@ -36,6 +79,7 @@ const timeline = [
   },
   {
     year: "2022",
+    shortYear: "22",
     title: "Salesforce Virtual Intern",
     company: "Smart Internz",
     desc: "Practiced CRM workflow automation and debugging concepts improving process understanding and technical problem-solving capabilities.",
@@ -44,6 +88,7 @@ const timeline = [
 ];
 
 export default function AboutSection() {
+  const [showProjects, setShowProjects] = useState(false);
   return (
     <section
       id="about"
@@ -99,7 +144,7 @@ export default function AboutSection() {
               </div>
               <div>
                 <p className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>Role</p>
-                <p className="text-sm font-bold gradient-text">Junior Engineer</p>
+                <p className="text-sm font-bold gradient-text">Full Stack Developer</p>
               </div>
             </motion.div>
 
@@ -128,8 +173,8 @@ export default function AboutSection() {
                 ⚡
               </div>
               <div>
-                <p className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>Industry Exposure</p>
-                <p className="text-sm font-bold" style={{ color: "var(--gold)" }}>4 Internships</p>
+                <p className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>Industry Experience</p>
+                <p className="text-sm font-bold" style={{ color: "var(--gold)" }}>1 Year</p>
               </div>
             </motion.div>
 
@@ -151,11 +196,11 @@ export default function AboutSection() {
                 <span style={{ color: "var(--purple)" }}>const</span>{" "}
                 <span style={{ color: "var(--cyan)" }}>sreekar</span> = {"{"}
                 <br />
-                &nbsp;&nbsp;role: <span className="text-[#a5d6ff]">"Junior Engineer"</span>,
+                &nbsp;&nbsp;role: <span className="text-[#a5d6ff]">"Full Stack Developer"</span>,
                 <br />
                 &nbsp;&nbsp;stack: [<span className="text-[#a5d6ff]">"React"</span>, <span className="text-[#a5d6ff]">"Node"</span>],
                 <br />
-                &nbsp;&nbsp;status: <span className="text-[#a5d6ff]">"Fresher"</span>
+                &nbsp;&nbsp;status: <span className="text-[#a5d6ff]">"1 Year Exp"</span>
                 <br />
                 {"}"};
               </pre>
@@ -169,9 +214,9 @@ export default function AboutSection() {
                 className="text-lg leading-relaxed"
                 style={{ color: "var(--text-muted)" }}
               >
-                I'm a Junior Software Engineer with a focus on developing scalable{" "}
+                I'm a Full Stack Developer with a focus on developing scalable{" "}
                 <span className="gradient-text font-semibold">full-stack SaaS platforms</span>
-                , workflow automation systems, and backend financial applications.
+                , workflow automation systems, and backend applications.
               </p>
             </div>
 
@@ -190,8 +235,8 @@ export default function AboutSection() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
                 { label: "Education", value: "St. Joseph's Degree College", aos: "fade-left", delay: "200" },
-                { label: "Availability", value: "Open to offers", aos: "fade-left", delay: "300" },
-                { label: "Internships completed", value: "4", aos: "fade-right", delay: "200" },
+                { label: "Availability", value: "Open to Work", aos: "fade-left", delay: "300" },
+                { label: "Experience", value: "1 Year", aos: "fade-right", delay: "200" },
                 { label: "Focus", value: "Full Stack (React/Node)", aos: "fade-right", delay: "300" },
               ].map((item) => (
                 <div
@@ -271,7 +316,7 @@ export default function AboutSection() {
                       background: "var(--bg-primary)",
                     }}
                   >
-                    {item.year.slice(2)}
+                    {item.shortYear}
                   </div>
 
                   {/* Center dot */}
@@ -299,9 +344,52 @@ export default function AboutSection() {
                       {item.title}
                     </h3>
                     <p className="text-sm font-medium gradient-text">{item.company}</p>
-                    <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                    <p className="text-sm leading-relaxed mb-1" style={{ color: "var(--text-muted)" }}>
                       {item.desc}
                     </p>
+
+                    {item.projects && (
+                      <div className="mt-4 pt-4 border-t border-[var(--border)]">
+                        <button
+                          onClick={() => setShowProjects(!showProjects)}
+                          className="flex items-center gap-2 text-xs font-bold tracking-wider uppercase text-[var(--cyan)] hover:text-white transition-colors"
+                        >
+                          {showProjects ? "Hide Shipped Projects ▲" : "View Shipped Projects (4) ▼"}
+                        </button>
+                        
+                        {showProjects && (
+                          <div className="mt-4 flex flex-col gap-6">
+                            {item.projects.map((proj, pIdx) => (
+                              <div key={proj.name} className="flex flex-col gap-2">
+                                <h4 className="text-sm font-bold text-[var(--text-primary)]" style={{ fontFamily: "Clash Display, sans-serif" }}>
+                                  {proj.name}
+                                </h4>
+                                <ul className="list-disc pl-4 text-xs flex flex-col gap-1.5" style={{ color: "var(--text-muted)" }}>
+                                  {proj.bullets.map((bullet, bIdx) => (
+                                    <li key={bIdx} className="leading-relaxed">{bullet}</li>
+                                  ))}
+                                </ul>
+                                <div className="flex flex-wrap gap-1.5 mt-1">
+                                  {proj.tech.map((t) => (
+                                    <span
+                                      key={t}
+                                      className="text-[9px] px-2 py-0.5 rounded-full font-mono"
+                                      style={{
+                                        background: "rgba(0, 245, 255, 0.05)",
+                                        border: "1px solid rgba(0, 245, 255, 0.15)",
+                                        color: "var(--cyan)"
+                                      }}
+                                    >
+                                      {t}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}

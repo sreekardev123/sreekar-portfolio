@@ -4,6 +4,7 @@ import { Providers } from "./providers";
 import Navbar from "@/components/Navbar";
 import CustomCursor from "@/components/CustomCursor";
 import { AOSInit } from "@/components/AOSInit";
+import AIChatWidget from "@/components/AIChatWidget";
 
 export const metadata: Metadata = {
   title: "Karanam Sreekar | Full Stack Developer",
@@ -30,6 +31,7 @@ export default function RootLayout({
           <CustomCursor />
           <Navbar />
           {children}
+          <AIChatWidget />
         </Providers>
       </body>
     </html>
