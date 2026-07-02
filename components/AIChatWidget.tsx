@@ -251,10 +251,10 @@ export default function AIChatWidget() {
                     playClick();
                     setIsOpen(false);
                   }}
-                  onMouseEnter={playHover}
                   className="w-7 h-7 rounded-lg flex items-center justify-center text-sm transition-all"
                   style={{ color: "rgba(255,255,255,0.3)" }}
                   onMouseEnter={(e) => {
+                    playHover();
                     (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.75)";
                     (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)";
                   }}
