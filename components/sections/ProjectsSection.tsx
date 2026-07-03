@@ -17,11 +17,12 @@ const projects = [
     gradient: "from-[#00f5ff20] to-[#7c3aed20]",
     stats: { stars: 12, forks: 3 },
     live: "#",
-    github: "#",
+    github: "https://github.com/AIdeas-Tech-Solutions-Private-Limited/smmaideas",
     featured: true,
     emoji: "🤖",
     bg: "linear-gradient(135deg, rgba(0,245,255,0.1) 0%, rgba(124,58,237,0.1) 100%)",
-    image: "/assets/smm-project.png",
+    image: "/assets/smm-automation.png",
+    imagePosition: "object-center",
   },
   {
     id: 2,
@@ -38,7 +39,7 @@ const projects = [
     featured: true,
     emoji: "🎓",
     bg: "linear-gradient(135deg, rgba(124,58,237,0.1) 0%, rgba(236,72,153,0.1) 100%)",
-    image: "/assets/lms-project.png",
+    image: "/assets/lms.png",
   },
   {
     id: 3,
@@ -51,10 +52,13 @@ const projects = [
     gradient: "from-[#3b82f620] to-[#8b5cf620]",
     stats: { stars: 10, forks: 2 },
     live: "#",
-    github: "#",
+    github: "https://github.com/AIdeas-Tech-Solutions-Private-Limited/crm-webapp",
+    githubBackend: "https://github.com/AIdeas-Tech-Solutions-Private-Limited/crm-api",
     featured: true,
     emoji: "📈",
-    bg: "linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(139,92,246,0.1) 100%)",
+    bg: "linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(139,92,246,0.15) 100%)",
+    image: "/assets/crm-project.png",
+    imagePosition: "object-center",
   },
   {
     id: 4,
@@ -66,12 +70,13 @@ const projects = [
     color: "var(--gold)",
     gradient: "from-[#f59e0b20] to-[#ef444420]",
     stats: { stars: 15, forks: 4 },
-    live: "#",
-    github: "#",
+    live: "https://impact-earn-market-l7bd.vercel.app/",
+    github: "https://github.com/sreekardev123/Trendzity-Frontend-",
+    githubBackend: "https://github.com/sreekardev123/Trendzity-Backend",
     featured: true,
     emoji: "💰",
     bg: "linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(239,68,68,0.1) 100%)",
-    image: "/assets/mlm-project.png",
+    image: "/assets/brand.png",
   },
   {
     id: 5,
@@ -83,11 +88,13 @@ const projects = [
     color: "#ef4444",
     gradient: "from-[#ef444420] to-[#00000020]",
     stats: { stars: 20, forks: 5 },
-    live: "#",
-    github: "#",
+    live: "https://netflix-c2n1.vercel.app/",
+    github: "https://github.com/sreekardev123/netflix",
     featured: false,
     emoji: "🍿",
     bg: "linear-gradient(135deg, rgba(239,68,68,0.1) 0%, rgba(0,0,0,0.1) 100%)",
+    image: "/assets/netflix-project.png",
+    imagePosition: "object-center",
   },
   {
     id: 6,
@@ -104,6 +111,7 @@ const projects = [
     featured: false,
     emoji: "🔐",
     bg: "linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(139,92,246,0.1) 100%)",
+    image: "/assets/multirole.png",
   },
   {
     id: 7,
@@ -120,6 +128,7 @@ const projects = [
     featured: false,
     emoji: "📈",
     bg: "linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(59,130,246,0.1) 100%)",
+    image: "/assets/image.png",
   },
   {
     id: 8,
@@ -136,6 +145,7 @@ const projects = [
     featured: false,
     emoji: "💬",
     bg: "linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(236,72,153,0.1) 100%)",
+    image: "/assets/chatbot.png",
   },
   {
     id: 9,
@@ -152,41 +162,52 @@ const projects = [
     featured: false,
     emoji: "🎨",
     bg: "linear-gradient(135deg, rgba(236,72,153,0.1) 0%, rgba(244,63,94,0.1) 100%)",
-  },
-  {
-    id: 10,
-    title: "Typing Master",
-    subtitle: "Interactive Speed Typing App",
-    description:
-      "Engaging Web App designed to improve typing speed and accuracy. Features real-time feedback, error highlighting, timer challenges, and progress tracking.",
-    tags: ["HTML", "CSS", "JavaScript"],
-    color: "#06b6d4",
-    gradient: "from-[#06b6d420] to-[#3b82f620]",
-    stats: { stars: 8, forks: 1 },
-    live: "#",
-    github: "#",
-    featured: false,
-    emoji: "⌨️",
-    bg: "linear-gradient(135deg, rgba(6,182,212,0.1) 0%, rgba(59,130,246,0.1) 100%)",
+    image: "/assets/aiimage.png",
+    imagePosition: "object-center",
   },
 ];
 
 function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
   const [hovered, setHovered] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = ((y - centerY) / centerY) * -5; // Max 5 deg tilt
+    const rotateY = ((x - centerX) / centerX) * 5;
+
+    setMousePos({ x: rotateY, y: rotateX });
+  };
+
+  const handleMouseLeave = () => {
+    setHovered(false);
+    setMousePos({ x: 0, y: 0 });
+  };
 
   return (
     <div
+      ref={cardRef}
       data-aos={index % 3 === 0 ? "fade-right" : index % 3 === 1 ? "zoom-in-up" : "fade-left"}
       data-aos-delay={index * 150}
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       className="glass-card overflow-hidden group cursor-pointer h-full"
       style={{ perspective: "1000px" }}
     >
       <div
-        className="transition-transform duration-300 ease-out h-full flex flex-col"
+        className="transition-transform duration-200 ease-out h-full flex flex-col"
         style={{
-          transform: hovered ? "rotateX(-3deg) rotateY(3deg) scale(1.02)" : "rotateX(0deg) rotateY(0deg) scale(1)",
+          transform: hovered 
+            ? `rotateX(${mousePos.y}deg) rotateY(${mousePos.x}deg) scale(1.02)` 
+            : "rotateX(0deg) rotateY(0deg) scale(1)",
           transformStyle: "preserve-3d"
         }}
       >
@@ -203,7 +224,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
                 src={project.image}
                 alt={project.title}
                 fill
-                className="absolute inset-0 object-cover object-top transition-transform duration-700 ease-out"
+                className={`absolute inset-0 object-cover transition-transform duration-700 ease-out ${(project as any).imagePosition || "object-top"}`}
                 style={{ transform: hovered ? "scale(1.1)" : "scale(1)" }}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
@@ -320,22 +341,40 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs px-3 py-1.5 rounded-lg transition-colors hover:scale-105 active:scale-95"
+                className="text-xs px-3 py-1.5 rounded-lg transition-colors hover:scale-105 active:scale-95 whitespace-nowrap"
                 style={{
                   border: "1px solid var(--border)",
                   color: "var(--text-muted)",
                 }}
                 onClick={(e) => e.stopPropagation()}
               >
-                Code
+                {/* @ts-ignore */}
+                {project.githubBackend ? "Frontend Code" : "Code"}
               </a>
+              {/* @ts-ignore */}
+              {project.githubBackend && (
+                <a
+                  /* @ts-ignore */
+                  href={project.githubBackend}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs px-3 py-1.5 rounded-lg transition-colors hover:scale-105 active:scale-95 whitespace-nowrap"
+                  style={{
+                    border: "1px solid var(--border)",
+                    color: "var(--text-muted)",
+                  }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Backend Code
+                </a>
+              )}
               <a
                 href={project.live}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs px-3 py-1.5 rounded-lg font-semibold hover:scale-105 active:scale-95 transition-transform"
                 style={{
-                  background: `linear-gradient(135deg, ${project.color}, ${project.color}88)`,
+                  background: project.color,
                   color: "#000",
                 }}
                 onClick={(e) => e.stopPropagation()}

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import GitNetworkBackground from "@/components/GitNetworkBackground";
 
 interface GitHubRepo {
   id: number;
@@ -78,9 +79,10 @@ export default function GitHubSection() {
   ];
 
   return (
-    <section id="github" className="py-24 px-4 sm:px-6 lg:px-8 relative">
+    <section id="github" className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-[var(--bg-primary)]">
+      <GitNetworkBackground />
       {/* Section heading */}
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -215,8 +217,8 @@ export default function GitHubSection() {
             </motion.div>
 
             {/* Repos grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {repos.map((repo, i) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {repos.slice(0, 4).map((repo, i) => (
                 <motion.a
                   key={repo.id}
                   href={repo.html_url}

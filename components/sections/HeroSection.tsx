@@ -4,6 +4,12 @@ import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform, useScroll } from "framer-motion";
 import { useUISounds } from "@/hooks/useUISounds";
+import dynamic from "next/dynamic";
+import ResumeModal from "@/components/ResumeModal";
+
+const WovenCanvas = dynamic(() => import("../WovenCanvas"), {
+  ssr: false,
+});
 
 const roles = [
   "Full Stack Developer",
@@ -243,6 +249,7 @@ export default function HeroSection() {
   const mouseXRef = useRef(0);
   const mouseYRef = useRef(0);
   const { playHover, playClick, playType } = useUISounds();
+  const [resumeOpen, setResumeOpen] = useState(false);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -283,6 +290,7 @@ export default function HeroSection() {
   }, [displayed, isDeleting, roleIndex, playType, cycleCount]);
 
   return (
+    <>
     <section
       id="home"
       ref={containerRef}
@@ -340,14 +348,14 @@ export default function HeroSection() {
                 <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10" /></svg>
               </a>
 
-              <a href="/assets/resume.pdf" target="_blank" rel="noopener noreferrer"
+              <button
                 className="px-8 py-3.5 rounded-full text-sm font-bold transition-all flex items-center gap-2"
                 style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "var(--text-primary)" }}
                 onMouseEnter={(e) => { playHover(); const el = e.currentTarget as HTMLElement; el.style.borderColor = "var(--cyan)"; el.style.background = "rgba(0,245,255,0.04)"; el.style.color = "var(--cyan)"; }}
                 onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(255,255,255,0.1)"; el.style.background = "rgba(255,255,255,0.04)"; el.style.color = "var(--text-primary)"; }}
-                onClick={playClick}>
+                onClick={() => { playClick(); setResumeOpen(true); }}>
                 📄 View Resume
-              </a>
+              </button>
 
               <div className="flex items-center gap-3">
                 <motion.a href="https://linkedin.com/in/sreekar-karanam-aba368259" target="_blank" rel="noopener noreferrer"
@@ -386,23 +394,12 @@ export default function HeroSection() {
               ))}
             </div>
           </div>
-
-          {/* ── Right Side: Profile ── */}
-          <div className="relative flex justify-center items-center h-full w-full" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="200">
-            <motion.div className="absolute w-[400px] h-[400px] bg-[var(--cyan)] rounded-full blur-[100px] opacity-10"
-              style={{ x: useTransform(springX, (v) => v * 0.05), y: useTransform(springY, (v) => v * 0.05) }} />
-            <motion.div style={{ rotateX, rotateY, perspective: 1000 }}
-              className="relative w-[300px] h-[400px] md:w-[350px] md:h-[450px] rounded-[3rem] p-2 glass-card animated-border z-10">
-              <div className="w-full h-full rounded-[2.5rem] overflow-hidden bg-[var(--bg-card)] border border-[var(--border)] relative group">
-                <Image src="/assets/profile.png" alt="Karanam Sreekar" fill priority sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-transparent to-transparent opacity-60 pointer-events-none" />
-                <div className="absolute inset-0 shadow-[inset_0_0_80px_rgba(0,0,0,0.5)] pointer-events-none" />
-              </div>
-            </motion.div>
+          {/* ── Right Side: 3D Holographic Particle Knot ── */}
+          <div className="relative flex justify-center items-center h-[350px] md:h-[450px] w-full" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="200">
+            <div className="absolute inset-0 w-full h-full flex items-center justify-center z-10">
+              <WovenCanvas />
+            </div>
           </div>
-
         </div>
       </motion.div>
 
@@ -415,5 +412,7 @@ export default function HeroSection() {
         </div>
       </motion.div>
     </section>
+    <ResumeModal isOpen={resumeOpen} onClose={() => setResumeOpen(false)} />
+    </>
   );
 }

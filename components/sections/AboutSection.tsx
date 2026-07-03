@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import ResumeModal from "@/components/ResumeModal";
 
 const AboutScene = dynamic(() => import("@/components/AboutScene"), {
   ssr: false,
@@ -89,6 +90,7 @@ const timeline = [
 
 export default function AboutSection() {
   const [showProjects, setShowProjects] = useState(false);
+  const [resumeOpen, setResumeOpen] = useState(false);
   return (
     <section
       id="about"
@@ -264,8 +266,8 @@ export default function AboutSection() {
             {/* Download CV */}
             <div className="flex gap-4" data-aos="fade-up" data-aos-delay="400">
               <a
-                href="/assets/resume.pdf"
-                download="Karanam_Sreekar_Resume.pdf"
+                href="/assets/Sreekar_Karanam_Resume.pdf"
+                download="Sreekar_Karanam_Resume.pdf"
                 className="btn-primary"
               >
                 Download CV
@@ -273,6 +275,12 @@ export default function AboutSection() {
                   <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
                 </svg>
               </a>
+              <button
+                onClick={() => setResumeOpen(true)}
+                className="btn-outline flex items-center gap-2"
+              >
+                📄 View Resume
+              </button>
             </div>
           </div>
         </div>
@@ -397,6 +405,7 @@ export default function AboutSection() {
           </div>
         </div>
       </div>
+      <ResumeModal isOpen={resumeOpen} onClose={() => setResumeOpen(false)} />
     </section>
   );
 }

@@ -25,6 +25,10 @@ const ContactSection = dynamic(() => import("@/components/sections/ContactSectio
   ssr: false 
 });
 
+const ParticleNetworkSection = dynamic(() => import("@/components/sections/ParticleNetworkSection"), { 
+  ssr: false 
+});
+
 const Footer = dynamic(() => import("@/components/Footer"), { 
   ssr: false 
 });
@@ -50,6 +54,7 @@ export default function Home() {
       <ParticleBackground />
 
       <HeroSection />
+      <ParticleNetworkSection />
       <AboutSection />
       <SkillsSection />
       <ProjectsSection />
