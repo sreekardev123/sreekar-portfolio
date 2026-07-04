@@ -22,9 +22,7 @@ export default function GitNetworkBackground() {
     const connectionCount = 2; // max connections per node
     
     // State
-    const nodes: Node[] = [];
-    const lines: Line[] = [];
-    const pulses: Pulse[] = [];
+    const nodes: any[] = [];
     const mouse = { x: -1000, y: -1000, radius: 200 };
 
     // Resize handler
