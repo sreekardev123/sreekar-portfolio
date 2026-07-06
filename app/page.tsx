@@ -42,7 +42,11 @@ export default function Home() {
     // Only track once per tab session to avoid double counts on page refreshes
     if (typeof window !== "undefined" && !sessionStorage.getItem("portfolio_visited")) {
       sessionStorage.setItem("portfolio_visited", "true");
-      fetch("/api/visitor", { method: "POST" }).catch((err) => console.error("Tracking error:", err));
+      fetch("/api/visitor", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ page: window.location.href }),
+      }).catch((err) => console.error("Tracking error:", err));
     }
   }, []);
 

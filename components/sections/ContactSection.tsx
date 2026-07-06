@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 const ContactScene = dynamic(() => import("@/components/ContactScene"), {
   ssr: false,
@@ -59,6 +61,7 @@ const contactInfo = [
 type Status = "idle" | "loading" | "success" | "error";
 
 export default function ContactSection() {
+  const { width, height } = useWindowSize();
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -97,6 +100,16 @@ export default function ContactSection() {
       id="contact"
       className="relative py-20 px-4 sm:py-32 sm:px-6 overflow-hidden"
     >
+      {status === "success" && (
+        <Confetti
+          width={width}
+          height={height}
+          recycle={false}
+          numberOfPieces={500}
+          gravity={0.15}
+          style={{ position: "fixed", zIndex: 99999, top: 0, left: 0 }}
+        />
+      )}
       {/* Background */}
       <div
         className="absolute inset-0 pointer-events-none"
