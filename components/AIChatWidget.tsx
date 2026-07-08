@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -10,6 +10,7 @@ type Message = {
   role: "user" | "assistant";
   content: string;
   isStreaming?: boolean;
+  options?: string[];
 };
 
 // ─── Quick intro from resume ───────────────────────────────────────────────────
@@ -160,6 +161,66 @@ export default function AIChatWidget() {
   useEffect(() => { if (isOpen) setTimeout(() => inputRef.current?.focus(), 300); }, [isOpen]);
   useEffect(() => { if (!isOpen) stop(); }, [isOpen]);
 
+  // ─── Context-Aware Greeting (LinkedIn) ──────────────────────────────────────
+  useEffect(() => {
+    // Only run this once on mount
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("ref") === "linkedin") {
+        // Open the bot
+        setIsOpen(true);
+        // Clean up the URL so it doesn't run again if they refresh
+        // In Next.js App Router, it's safer to use a new URL without search params
+        const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        window.history.pushState({ path: newUrl }, "", newUrl);
+
+        // Stream the custom LinkedIn greeting
+        const greetingId = `intro-${Date.now()}`;
+        setMessages([
+          { id: greetingId, role: "assistant", content: "", isStreaming: true },
+        ]);
+
+        const greetingText = "Hey LinkedIn fam! 👋 Thanks for checking out Sreekar's portfolio. I'm Nova AI. Do you want me to give you a quick intro to what Sreekar does?";
+        
+        let i = 0;
+        const chunk = 3; // Type a bit slower for effect
+        const interval = setInterval(() => {
+          i += chunk;
+          const partial = greetingText.slice(0, i);
+          setMessages((prev) => prev.map((m) => m.id === greetingId ? { ...m, content: partial, isStreaming: true } : m));
+          if (i >= greetingText.length) {
+            clearInterval(interval);
+            setMessages((prev) => prev.map((m) => m.id === greetingId ? { 
+              ...m, 
+              content: greetingText, 
+              isStreaming: false,
+              options: ["Yes, intro please! 🚀", "Show me his projects", "No thanks, just browsing"]
+            } : m));
+          }
+        }, 30);
+      }
+    }
+  }, []);
+
+  const handleOptionClick = (opt: string, msgId: string) => {
+    // Remove options from the message after clicking so they don't pile up
+    setMessages((prev) => prev.map((m) => (m.id === msgId ? { ...m, options: undefined } : m)));
+
+    if (opt.includes("No thanks")) {
+      const userMessage: Message = { id: `u-${Date.now()}`, role: "user", content: opt };
+      const byeMsg: Message = { id: `a-${Date.now()}`, role: "assistant", content: "No problem! Feel free to ask if you need anything. Have a great day! ✨", isStreaming: false };
+      setMessages((prev) => [...prev, userMessage, byeMsg]);
+    } else if (opt.includes("intro please")) {
+      showIntro();
+    } else if (opt.includes("Let's connect")) {
+      const userMessage: Message = { id: `u-${Date.now()}`, role: "user", content: opt };
+      const contactMsg: Message = { id: `a-${Date.now()}`, role: "assistant", content: "Awesome! You can email me directly at [sreekarkaranam27@gmail.com](mailto:sreekarkaranam27@gmail.com) or use the contact form at the bottom of the page. Let's build something great!", isStreaming: false };
+      setMessages((prev) => [...prev, userMessage, contactMsg]);
+    } else {
+      sendMessage(opt);
+    }
+  };
+
   const sendMessage = async (content: string) => {
     if (!content.trim() || isLoading) return;
     const userMessage: Message = { id: `u-${Date.now()}`, role: "user", content: content.trim() };
@@ -212,7 +273,12 @@ export default function AIChatWidget() {
       setMessages((prev) => prev.map((m) => m.id === introId ? { ...m, content: partial, isStreaming: true } : m));
       if (i >= QUICK_INTRO.length) {
         clearInterval(interval);
-        setMessages((prev) => prev.map((m) => m.id === introId ? { ...m, content: QUICK_INTRO, isStreaming: false } : m));
+        setMessages((prev) => prev.map((m) => m.id === introId ? { 
+          ...m, 
+          content: QUICK_INTRO, 
+          isStreaming: false,
+          options: ["What's your tech stack?", "Let's connect!"]
+        } : m));
       }
     }, 18);
   };
@@ -412,6 +478,39 @@ export default function AIChatWidget() {
                                 {speakingId === m.id ? <motion.span animate={{ scale: [1, 1.3, 1] }} transition={{ repeat: Infinity, duration: 0.7 }}>🔊</motion.span> : <span>🔈</span>}
                                 <span>{speakingId === m.id ? "Stop" : "Read aloud"}</span>
                               </button>
+                            )}
+
+                            {/* Render Interactive Options */}
+                            {m.options && !m.isStreaming && (
+                              <motion.div 
+                                initial={{ opacity: 0, y: 5 }} 
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2 }}
+                                className="mt-4 flex flex-wrap gap-2"
+                              >
+                                {m.options.map((opt) => (
+                                  <button
+                                    key={opt}
+                                    onClick={() => handleOptionClick(opt, m.id)}
+                                    className="text-[11px] font-semibold px-3 py-2 rounded-lg transition-all"
+                                    style={{
+                                      background: "rgba(0,245,255,0.08)",
+                                      border: "1px solid rgba(0,245,255,0.25)",
+                                      color: "var(--cyan)",
+                                    }}
+                                    onMouseEnter={(e) => {
+                                      (e.currentTarget as HTMLElement).style.background = "rgba(0,245,255,0.15)";
+                                      (e.currentTarget as HTMLElement).style.boxShadow = "0 0 12px rgba(0,245,255,0.2)";
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      (e.currentTarget as HTMLElement).style.background = "rgba(0,245,255,0.08)";
+                                      (e.currentTarget as HTMLElement).style.boxShadow = "none";
+                                    }}
+                                  >
+                                    {opt}
+                                  </button>
+                                ))}
+                              </motion.div>
                             )}
                           </div>
                         ) : <TypingDots />}
