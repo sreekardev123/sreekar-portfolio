@@ -10,6 +10,7 @@ const projects = [
     id: 1,
     title: "SMM",
     subtitle: "AI-Powered Social Media Automation Platform",
+    whyBuilt: "Manual content posting was eating 6+ hours a day. I built this to automate the entire pipeline — from AI caption generation to multi-platform publishing.",
     description:
       "Architected AI content automation using Google Gemini API for captions and images. Built image-to-video compiling using FFmpeg, and integrated Meta Graph, LinkedIn, YouTube, and Twitter Puppeteer automation. Reduced manual content creation by 85% with cron-based scheduling.",
     tags: ["React", "JavaScript", "Vite", "Node.js", "Express.js", "PostgreSQL", "Google Gemini API", "FFmpeg", "Cloudinary", "Puppeteer", "JWT"],
@@ -28,6 +29,7 @@ const projects = [
     id: 2,
     title: "AIdeas Academy",
     subtitle: "Learning Management System",
+    whyBuilt: "Existing LMS platforms were either too expensive or lacked role-based flexibility. I built this to support students, instructors, admins, and managers in one unified system.",
     description:
       "Designed a modular LMS architecture supporting 4 user roles. Built a scalable PostgreSQL schema with 8 normalized tables using Drizzle ORM, reducing query time by 40%. Implemented Nodemailer welcome system and secure REST APIs with JWT refresh flows.",
     tags: ["Next.js", "TypeScript", "Node.js", "Express.js", "PostgreSQL", "Drizzle ORM", "JWT", "Zod", "Nodemailer", "Multer"],
@@ -45,6 +47,7 @@ const projects = [
     id: 3,
     title: "Enterprise CRM",
     subtitle: "Role-Based Sales & Lead Management System",
+    whyBuilt: "Sales teams were losing leads due to unstructured pipelines. I built RBAC-driven workflows so each role sees only what they need — reducing data overhead and improving conversion tracking.",
     description:
       "Architected role-based access control (RBAC) for 5 corporate roles with table-level permissions. Developed stateful lead conversion engine, pipeline analytics dashboard using Recharts/Redux Toolkit, and secured APIs using Helmet, Bcrypt, and Prisma.",
     tags: ["Next.js", "React", "TypeScript", "Redux Toolkit", "Node.js", "Express.js", "PostgreSQL", "Prisma ORM", "JWT", "Zod", "Recharts"],
@@ -64,6 +67,7 @@ const projects = [
     id: 4,
     title: "Trendzity",
     subtitle: "Influencer Campaign & Wallet Management Platform",
+    whyBuilt: "Influencer payouts were error-prone and slow. I engineered a double-entry ledger and Razorpay integration to make financial transactions traceable and instant.",
     description:
       "Built double-entry ledger system with separation of withdrawable/non-withdrawable balances. Processed 1000+ wallet transactions with secure Razorpay integration. Integrated Meta, LinkedIn, YouTube, and Telegram APIs for campaigns, reducing manual finance overhead by 35%.",
     tags: ["React", "TypeScript", "Node.js", "Express.js", "PostgreSQL", "Prisma ORM", "Razorpay", "JWT", "Cloudinary"],
@@ -82,6 +86,7 @@ const projects = [
     id: 5,
     title: "Netflix Clone",
     subtitle: "Frontend Streaming Application",
+    whyBuilt: "Built to master React component architecture and responsive UI — a faithful recreation of Netflix's browsing and carousel experience.",
     description:
       "Developed a Netflix clone emphasizing a responsive and dynamic UI. Leveraged Tailwind CSS for efficient styling, Swiper for content carousels, and React Router for seamless navigation.",
     tags: ["React.js", "Tailwind CSS", "React Router", "Swiper"],
@@ -100,6 +105,7 @@ const projects = [
     id: 6,
     title: "Multi-Role Auth Platform",
     subtitle: "Full-Stack Landing Page",
+    whyBuilt: "Single login flows don't scale for enterprise apps. I built this to explore role-segmented authentication with dual-factor OTP and security questions.",
     description:
       "Responsive landing page with four distinct login roles (Admin, Professional, Client, Employee). Includes secure OTP and Security Question dual authentication stored in MySQL.",
     tags: ["React.js", "Node.js", "MySQL", "Nodemailer"],
@@ -117,6 +123,7 @@ const projects = [
     id: 7,
     title: "Digital Marketing Platform",
     subtitle: "Multi-Service Web Architecture",
+    whyBuilt: "Managing digital marketing services required switching between 10+ tools. I built a unified portal that centralized these services, improving team efficiency by 40%.",
     description:
       "Backend API and UI covering 13 digital services. Handles automated email notifications, form validation, and MySQL integrations for real-time reliable data processing.",
     tags: ["React.js", "Node.js", "Express.js", "MySQL"],
@@ -134,6 +141,7 @@ const projects = [
     id: 8,
     title: "AI Business Chatbot",
     subtitle: "Interactive AI Assistant",
+    whyBuilt: "Customer support teams were overwhelmed with repetitive queries. I built an AI assistant that handles tier-1 support, complete with speech synthesis and a dashboard for analytics.",
     description:
       "Interactive chatbot featuring speech synthesis, dynamic form handling, and secure OTP management. Includes a 4-module dashboard to manage user data.",
     tags: ["React.js", "Node.js", "Express.js", "MySQL"],
@@ -151,6 +159,7 @@ const projects = [
     id: 9,
     title: "AI Image Generator",
     subtitle: "Text-to-Image Application",
+    whyBuilt: "I wanted to understand how to integrate heavy AI models into a web app. Built this to explore the Hugging Face API and optimize Node.js for high-latency external requests.",
     description:
       "Generates diverse AI images dynamically from text prompts. Integrated Hugging Face APIs and optimized Node.js backends for faster image rendering performance.",
     tags: ["JavaScript", "Node.js", "Express.js", "Hugging Face"],
@@ -296,6 +305,21 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
               {project.title}
             </h3>
           </div>
+
+          {/* Why Built — Recruiter storytelling hook */}
+          {(project as any).whyBuilt && (
+            <div
+              className="text-xs leading-relaxed px-3 py-2 rounded-lg"
+              style={{
+                background: `${project.color}08`,
+                borderLeft: `2px solid ${project.color}60`,
+                color: "rgba(255,255,255,0.55)",
+                fontStyle: "italic",
+              }}
+            >
+              💡 {(project as any).whyBuilt}
+            </div>
+          )}
 
           <p
             className="text-sm leading-relaxed line-clamp-3"

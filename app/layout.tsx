@@ -9,12 +9,27 @@ import AIChatWidget from "@/components/AIChatWidget";
 export const metadata: Metadata = {
   title: "Karanam Sreekar | Full Stack Developer",
   description:
-    "Premium portfolio showcasing stunning web development, modern design, and 3D experiences.",
-  keywords: ["portfolio", "developer", "Next.js", "React", "full stack"],
+    "Building AI-powered web applications with React, Next.js & Node.js — turning complex ideas into scalable, production-grade products.",
+  keywords: ["portfolio", "developer", "Next.js", "React", "full stack", "Sreekar Karanam", "AI"],
   openGraph: {
     title: "Karanam Sreekar | Full Stack Developer",
-    description: "Premium portfolio with stunning animations and 3D experiences",
+    description: "Building AI-powered web applications with React, Next.js & Node.js — turning complex ideas into scalable, production-grade products.",
     type: "website",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://sreekar-portfolio-gamma.vercel.app",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Karanam Sreekar - Full Stack Developer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Karanam Sreekar | Full Stack Developer",
+    description: "Building AI-powered web applications with React, Next.js & Node.js.",
+    images: ["/og-image.png"],
   },
 };
 

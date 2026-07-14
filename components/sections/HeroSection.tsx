@@ -337,7 +337,7 @@ export default function HeroSection() {
             </div>
 
             <p className="text-base md:text-lg leading-relaxed max-w-xl" style={{ color: "var(--text-muted)", fontFamily: "Cabinet Grotesk, sans-serif" }} data-aos="fade-up" data-aos-delay="100">
-              Full Stack Developer experienced in developing scalable SaaS platforms, workflow automation systems, and backend applications.
+              Building <span style={{ color: "var(--cyan)", fontWeight: 600 }}>AI-powered web applications</span> with React, Next.js & Node.js — turning complex ideas into scalable, production-grade products.
             </p>
 
             {/* Actions */}
