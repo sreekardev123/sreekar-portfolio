@@ -15,10 +15,10 @@ export const metadata: Metadata = {
     title: "Karanam Sreekar | Full Stack Developer",
     description: "Building AI-powered web applications with React, Next.js & Node.js — turning complex ideas into scalable, production-grade products.",
     type: "website",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://sreekar-portfolio-gamma.vercel.app",
+    url: "https://sreekar-portfolio-gamma.vercel.app",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://sreekar-portfolio-gamma.vercel.app/og-image.png",
         width: 1200,
         height: 630,
         alt: "Karanam Sreekar - Full Stack Developer",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Karanam Sreekar | Full Stack Developer",
     description: "Building AI-powered web applications with React, Next.js & Node.js.",
-    images: ["/og-image.png"],
+    images: ["https://sreekar-portfolio-gamma.vercel.app/og-image.png"],
   },
 };
 
