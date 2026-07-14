@@ -96,7 +96,8 @@ export async function POST(req: NextRequest) {
 
   try {
     // ── Geo headers from Vercel ─────────────────────────────────────────────
-    const city        = decodeURIComponent(req.headers.get("x-vercel-ip-city") || "Unknown City");
+    const rawCity     = req.headers.get("x-vercel-ip-city");
+    const city        = rawCity ? decodeURIComponent(rawCity) : "";
     const countryCode = req.headers.get("x-vercel-ip-country") || "";
     const region      = req.headers.get("x-vercel-ip-country-region") || "";
     const latitude    = req.headers.get("x-vercel-ip-latitude") || "";
