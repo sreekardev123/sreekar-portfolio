@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import dynamic from "next/dynamic";
 import HeroSection from "@/components/sections/HeroSection";
+import LazyRender from "@/components/LazyRender";
 
 // Lazy load components with SSR disabled to prevent AOS hydration mismatches
 const AboutSection = dynamic(() => import("@/components/sections/AboutSection"), { 
@@ -58,12 +59,31 @@ export default function Home() {
       <ParticleBackground />
 
       <HeroSection />
-      <ParticleNetworkSection />
-      <AboutSection />
-      <SkillsSection />
-      <ProjectsSection />
-      <GitHubSection />
-      <ContactSection />
+      
+      <LazyRender minHeight="800px">
+        <ParticleNetworkSection />
+      </LazyRender>
+      
+      <LazyRender minHeight="1000px">
+        <AboutSection />
+      </LazyRender>
+      
+      <LazyRender minHeight="800px">
+        <SkillsSection />
+      </LazyRender>
+      
+      <LazyRender minHeight="1200px">
+        <ProjectsSection />
+      </LazyRender>
+      
+      <LazyRender minHeight="800px">
+        <GitHubSection />
+      </LazyRender>
+      
+      <LazyRender minHeight="800px">
+        <ContactSection />
+      </LazyRender>
+      
       <Footer />
     </main>
   );
